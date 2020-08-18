@@ -1,0 +1,11 @@
+name: DIA-ServerCPU
+main: dokidia\cpu
+api: 3.0.0
+version: 1.0.0
+author: dokidia
+
+commands:
+  cpu:
+    description: 다이아서버의 CPU 정보를 확인합니다
+  온도:
+    description: 다이아서버의 CPU 온도를 확인합니다
