@@ -21,7 +21,7 @@ class cpu extends PluginBase implements Listener {
 
 	public function onEnable() : void{
 	    self::$instance = $this;
-        $this->getLogger()->info(TextFormat::GREEN . "DIA-ServerCPU 활성화");
+        $this->getLogger()->info(TextFormat::GREEN . "DIA-ServerCPU 활성화 | Made by DOKIDIA");
 	}
 	
 	public static function getInstance() : self{
@@ -35,14 +35,12 @@ class cpu extends PluginBase implements Listener {
         return true;
     }
     
-    public function Menu($sender){ 
-      //  $api = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
-
-        // 온도
+    public function Menu($sender){
+        // 온도 확인 명령어
         $temp = system("cat /sys/class/thermal/thermal_zone0/temp");
         $temp2 = round($temp * 1/1000, 2);
 
-        // cpu 현재 클럭
+        // cpu 현재 클럭 확인 명령어
         $curcpu = system("cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq");
         $curcpu2 = round($curcpu * 1/1000000, 2);
 
