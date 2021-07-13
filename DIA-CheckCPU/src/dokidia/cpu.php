@@ -21,21 +21,21 @@ class cpu extends PluginBase implements Listener {
 
 	public function onEnable() : void{
 	    self::$instance = $this;
-        $this->getLogger()->info(TextFormat::GREEN . "DIA-ServerCPU 활성화 | Made by DOKIDIA");
+        $this->getLogger()->info(TextFormat::GREEN . "DIA-CheckCPU Enabled | Made by DOKIDIA(twk1024) from OpenDIA");
 	}
 	
 	public static function getInstance() : self{
 	    return self::$instance;
 	}
  
-    public function onCommand(CommandSender $o, Command $cmd, string $label, array $array) : bool{
+    public function onCommand(CommandSender $player, Command $cmd, string $label, array $array) : bool{
         if($cmd->getName() == "cpu" || $cmd->getName() == "온도"){
-            $this->Menu($o);
+            $this->RaspberryTemp($player);
         }
         return true;
     }
     
-    public function Menu($sender){
+    public function RaspberryTemp($sender){
         // 온도 확인 명령어
         $temp = system("cat /sys/class/thermal/thermal_zone0/temp");
         $temp2 = round($temp * 1/1000, 2);
@@ -45,32 +45,32 @@ class cpu extends PluginBase implements Listener {
         $curcpu2 = round($curcpu * 1/1000000, 2);
 
         if ($temp2 < 40) {
-            $status = "매우 좋음";
+            $status = "Excellent";
             $isThrottle = "No";
         } else if ($temp2 < 45) {
-            $status = "좋음";
+            $status = "Stabled";
             $isThrottle = "No";
         } else if ($temp2 < 54) {
-            $status = "보통";
+            $status = "Normal";
             $isThrottle = "No";
         } else if ($temp2 < 61) {
-            $status = "주의";
+            $status = "Warning";
             $isThrottle = "No";
         } else if ($temp2 < 70) {
-            $status = "경고";
+            $status = "Dangerous";
             $isThrottle = "No";
         } else if ($temp2 < 79) {
-            $status = "위험";
+            $status = "Critical";
             $isThrottle = "No";
         } else if ($temp2 >= 79) {
-            $status = "매우 위험 - 스로틀링 진행중";
+            $status = "Extremely Critical - CPU Throttled";
             $isThrottle = "Yes";
         } else {
             $status = "Unknown";
             $isThrottle = "Unknown";
         }
 
-        $sender->sendMessage("§b=====[ 다이아서버 CPU 상태 ]=====\n§e온도: {$temp2}C\n§e현재 클럭: {$curcpu2}GHz\n§e상태: {$status}\n§e스로틀링: {$isThrottle}\n§b==============================");
+        $sender->sendMessage("§b=====[ Server CPU ]=====\n§eTemperature: {$temp2}C\n§eCPU Frequency: {$curcpu2}GHz\n§eSummary: {$status}\n§eThrottle: {$isThrottle}\n§b==============================");
     }
 
 }
